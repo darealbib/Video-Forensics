@@ -1,22 +1,22 @@
-folder=fullfile('D:', 'video forensics', '8th sem', 'trainingVideo', 'cam1-myPhone');
+folder=fullfile('C:', 'Users', 'Ishaan Dali', 'OneDrive', 'Documents','Assignments - Projects','Research','Video-Forensics','Videos');
 
 %filename=fullfile(folder,'1v.mp4');
 
 
 count=1;
 videoNumber=1;
-videoFiles=dir('D:\video forensics\8th sem\trainingVideo\cam1-myPhone\*.mp4');
+videoFiles=dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Videos\*.mp4');
 for num=1:length(videoFiles)
  
 filename=fullfile(folder,videoFiles(num).name);
 a=VideoReader(filename);
 
 outputFolderName =strcat('Video  ', num2str(videoNumber));
-outFullFolder=fullfile('D:', 'video forensics', '8th sem', 'trainingFrame', 'cam1-myPhone', outputFolderName);
+outFullFolder=fullfile('C:', 'Users', 'Ishaan Dali', 'OneDrive', 'Documents','Assignments - Projects','Research','Video-Forensics','Video Frames','Manikanta Phone');
 if ~exist(outFullFolder, 'dir')
               mkdir(outFullFolder);
 else
-    sprintf('\nDirectory exists');
+    sprintf('\n Directory exists');
 end
 
 for i=1:a.NumberOfFrames
