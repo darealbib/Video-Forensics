@@ -1,3 +1,4 @@
+
 clc;
 close all;
 srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames All\*.jpg');

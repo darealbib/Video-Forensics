@@ -46,7 +46,7 @@ for i = 1 : length(srcFiles)
 
 
 
-    [Reconstructed] = idwt2(CA1,H1wiener,V1wiener,D1wiener,'db8');
+    [Reconstructed] = idwt2(CA1,CH1,CV1,CD1,'db8');
    
     switch (l)
         case 1 
