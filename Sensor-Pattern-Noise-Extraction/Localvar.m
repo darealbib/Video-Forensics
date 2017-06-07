@@ -1,7 +1,7 @@
 function [ locvar ] = Localvar( img )
 %LOCALVAR Summary of this function goes here
 %   Detailed explanation goes here
-    D = [3 5 7 9]
+    D = [3 5 7 9];
     d0=5;
     [m,n] = size(img);
     sum=0; 
@@ -18,3 +18,4 @@ function [ locvar ] = Localvar( img )
     locvar= min([var1,var2,var3,var4]);
     
 end
+

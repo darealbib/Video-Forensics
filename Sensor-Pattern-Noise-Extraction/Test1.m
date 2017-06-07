@@ -1,3 +1,4 @@
+
 clc;
 close all;
 srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames All\*.jpg');
@@ -16,17 +17,21 @@ for i = 1 : length(srcFiles)
     switch (l)
         case 1 
         [c,s] = wavedec2(red,4,'db8');
+        [H,V,D] = detcoef2('all',c,s,j);
+        A = appcoef2(c,s,'db8',1);
         case 2 
         [c,s] = wavedec2(green,4,'db8');
+        [H,V,D] = detcoef2('all',c,s,j);
+        A = appcoef2(c,s,'db8',1);
         case 3 
         [c,s] = wavedec2(blue,4,'db8');
+        [H,V,D] = detcoef2('all',c,s,j);
+        A = appcoef2(c,s,'db8',1);
         otherwise
         fprintf('Invalid!\n' );
     end
     
     for j = 1 : 4
-    [H,V,D] = detcoef2('all',c,s,j);
-    
     Himg = wcodemat(H,255,'mat',1);
     Vimg = wcodemat(V,255,'mat',1);
     Dimg = wcodemat(D,255,'mat',1);
@@ -39,7 +44,7 @@ for i = 1 : length(srcFiles)
     Vwiener = Wiener(Vimg, Vvar , d0);
     Dwiener = Wiener(Dimg, Dvar , d0);
     
-    X = idwt2(cA,cH,cV,cD,'wname')
+    X = idwt2(A,Hwiener,Vwiener,Dwiener,'db8');
     
     end
     end
