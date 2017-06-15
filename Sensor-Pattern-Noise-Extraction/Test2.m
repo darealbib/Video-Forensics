@@ -5,9 +5,11 @@ srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\R
 % the folder in which ur images exists
 dwtmode('per');
 d0=5;
+Noise=0;
 for i = 1 : length(srcFiles)
     filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames All\',srcFiles(i).name);
     img = imread(filename);
+    img = imresize(img, 2.^(nextpow2([size(img,1) size(img,2)])), 'bilinear');
     red = img(:,:,1);
     green = img(:,:,2);
     blue = img(:,:,3);
@@ -47,33 +49,33 @@ for i = 1 : length(srcFiles)
     D4var = Localvar(CD4);
     
         
-    H1wiener = Wiener(CH1, H1var , d0);
-    H2wiener = Wiener(CH2, H2var , d0);
-    H3wiener = Wiener(CH3, H3var , d0);
-    H4wiener = Wiener(CH4, H4var , d0);
+    H1var = Wiener(CH1, H1var , d0);
+    H2var = Wiener(CH2, H2var , d0);
+    H3var = Wiener(CH3, H3var , d0);
+    H4var = Wiener(CH4, H4var , d0);
     
-    V1wiener = Wiener(CV1, V1var , d0);
-    V2wiener = Wiener(CV2, V2var , d0);
-    V3wiener = Wiener(CV3, V3var , d0);
-    V4wiener = Wiener(CV4, V4var , d0);
+    V1var = Wiener(CV1, V1var , d0);
+    V2var = Wiener(CV2, V2var , d0);
+    V3var = Wiener(CV3, V3var , d0);
+    V4var = Wiener(CV4, V4var , d0);
     
-    D1wiener = Wiener(CD1, D1var , d0);
-    D2wiener = Wiener(CD2, D2var , d0);
-    D3wiener = Wiener(CD3, D3var , d0);
-    D4wiener = Wiener(CD4, D4var , d0);
+    D1var = Wiener(CD1, D1var , d0);
+    D2var = Wiener(CD2, D2var , d0);
+    D3var = Wiener(CD3, D3var , d0);
+    D4var = Wiener(CD4, D4var , d0);
     
-    [LL3] = idwt2(CA4,H4wiener,V4wiener,D4wiener,'db8');
+    [LL3] = idwt2(CA4,H4var,V4var,D4var,'db8');
     
-    [LL2] = idwt2(LL3,H3wiener,V3wiener,D3wiener,'db8');
+    [LL2] = idwt2(LL3,H3var,V3var,D3var,'db8');
 
-    [LL1] = idwt2(LL2,H2wiener,V2wiener,D2wiener,'db8');
+    [LL1] = idwt2(LL2,H2var,V2var,D2var,'db8');
 
-    [Reconstructed] = idwt2(LL1,H1wiener,V1wiener,D1wiener,'db8');
+    [Reconstructed] = idwt2(LL1,H1var,V1var,D1var,'db8');
    
     switch (l)
         case 1 
         inv_red = [Reconstructed];
-        imshow(inv_red);
+        
         case 2 
         inv_green = [Reconstructed];
         
@@ -86,5 +88,12 @@ for i = 1 : length(srcFiles)
     end
 
     rgbImage = cat(3, inv_red, inv_green, inv_blue);
-
+    rgbImage = uint8(rgbImage);
+    Noise = Noise+ (img - rgbImage);
+    
 end
+
+Noise = Noise/length(srcFiles);
+
+
+

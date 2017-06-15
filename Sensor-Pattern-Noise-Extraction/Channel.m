@@ -1,37 +1,97 @@
 
 clc;
 close all;
-srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\*.jpg');
+srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames All\*.jpg');
 % the folder in which ur images exists
 dwtmode('per');
+d0=5;
+Noise=0;
 for i = 1 : length(srcFiles)
-    filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignment-Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\',srcFiles(i).name);
+    filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames All\',srcFiles(i).name);
     img = imread(filename);
-    figure, imshow(img);
+    img = imresize(img, 2.^(nextpow2([size(img,1) size(img,2)])), 'bilinear');
     red = img(:,:,1);
     green = img(:,:,2);
     blue = img(:,:,3);
-    [c1,s1] = wavedec2(red,j,'db8');
-    [c2,s2] = wavedec2(green,j,'db8');
-    [c3,s3] = wavedec2(blue,j,'db8');
-    for j = 1 : 4
-    [H1,V1,D1] = detcoef2('all',c1,s1,j);
-    [H2,V2,D2] = detcoef2('all',c2,s2,j);
-    [H3,V3,D3] = detcoef2('all',c3,s3,j);
-    H1img = wcodemat(H1,255,'mat',1);
-    V1img = wcodemat(V1,255,'mat',1);
-    D1img = wcodemat(D1,255,'mat',1);
-    H2img = wcodemat(H2,255,'mat',1);
-    V2img = wcodemat(V2,255,'mat',1);
-    D2img = wcodemat(D2,255,'mat',1);
-    H3img = wcodemat(H3,255,'mat',1);
-    V3img = wcodemat(V3,255,'mat',1);
-    D3img = wcodemat(D3,255,'mat',1);
-    
-    
-    
-    
+
+    for l = 1 : 3
+    switch (l)
+        case 1
+        [CA1,CH1,CV1,CD1] = dwt2(red,'db8');
+
+        case 2
+        [CA1,CH1,CV1,CD1] = dwt2(green,'db8');
+
+        case 3
+        [CA1,CH1,CV1,CD1] = dwt2(blue,'db8');
+
+        otherwise
+        fprintf('Invalid!\n' );
     end
 
+    [CA2,CH2,CV2,CD2] = dwt2(CA1,'db8');
+    [CA3,CH3,CV3,CD3] = dwt2(CA2,'db8');
+    [CA4,CH4,CV4,CD4] = dwt2(CA3,'db8');
+
+    H1var = Localvar(CH1);
+    H2var = Localvar(CH2);
+    H3var = Localvar(CH3);
+    H4var = Localvar(CH4);
+
+    V1var = Localvar(CV1);
+    V2var = Localvar(CV2);
+    V3var = Localvar(CV3);
+    V4var = Localvar(CV4);
+
+    D1var = Localvar(CD1);
+    D2var = Localvar(CD2);
+    D3var = Localvar(CD3);
+    D4var = Localvar(CD4);
+
+
+    H1var = Wiener(CH1, H1var , d0);
+    H2var = Wiener(CH2, H2var , d0);
+    H3var = Wiener(CH3, H3var , d0);
+    H4var = Wiener(CH4, H4var , d0);
+
+    V1var = Wiener(CV1, V1var , d0);
+    V2var = Wiener(CV2, V2var , d0);
+    V3var = Wiener(CV3, V3var , d0);
+    V4var = Wiener(CV4, V4var , d0);
+
+    D1var = Wiener(CD1, D1var , d0);
+    D2var = Wiener(CD2, D2var , d0);
+    D3var = Wiener(CD3, D3var , d0);
+    D4var = Wiener(CD4, D4var , d0);
+
+    [LL3] = idwt2(CA4,H4var,V4var,D4var,'db8');
+
+    [LL2] = idwt2(LL3,H3var,V3var,D3var,'db8');
+
+    [LL1] = idwt2(LL2,H2var,V2var,D2var,'db8');
+
+    [Reconstructed] = idwt2(LL1,H1var,V1var,D1var,'db8');
+
+    switch (l)
+        case 1
+        inv_red = [Reconstructed];
+
+        case 2
+        inv_green = [Reconstructed];
+
+        case 3
+        inv_blue = [Reconstructed];
+
+        otherwise
+        fprintf('Invalid!\n' );
+    end
+    end
+
+    rgbImage = cat(3, inv_red, inv_green, inv_blue);
+    rgbImage = uint8(rgbImage);
+    Noise = Noise+ (img - rgbImage);
 
 end
+
+Noise = Noise/length(srcFiles);
+imwrite(Noise, fullfile('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Extracted Noise\', 'Noise.png'))

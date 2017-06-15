@@ -7,12 +7,12 @@ count=1;
 videoNumber=1;
 videoFiles=dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Videos\*.mp4');
 for num=1:length(videoFiles)
- 
+
 filename=fullfile(folder,videoFiles(num).name);
 a=VideoReader(filename);
 
 outputFolderName =strcat('Video  ', num2str(videoNumber));
-outFullFolder=fullfile('C:', 'Users', 'Ishaan Dali', 'OneDrive', 'Documents','Assignments - Projects','Research','Video-Forensics','Video Frames','Manikanta Phone');
+outFullFolder=fullfile('C:', 'Users', 'Ishaan Dali', 'OneDrive', 'Documents','Assignments - Projects','Research','Video-Forensics','Video Frames','Ishaan Phone');
 if ~exist(outFullFolder, 'dir')
               mkdir(outFullFolder);
 else
@@ -20,7 +20,7 @@ else
 end
 
 for i=1:a.NumberOfFrames
-   outfilename=strcat('Frame ',num2str(count),'.jpg');
+   outfilename=strcat('Frame ',num2str(count),'.png');
    outfilepath=fullfile(outFullFolder, outfilename);
    img=read(a,i);
    imwrite(img, outfilepath);
