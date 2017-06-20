@@ -1,7 +1,7 @@
 folder=fullfile('C:', 'Users', 'Ishaan Dali', 'OneDrive', 'Documents','Assignments - Projects','Research','Video-Forensics','Videos');
 
 %filename=fullfile(folder,'1v.mp4');
-
+%ffmpeg -i in.mp4 -vf select="eq(pict_type\,PICT_TYPE_I)" -vsync 0 i%03d.png
 
 count=1;
 videoNumber=1;
