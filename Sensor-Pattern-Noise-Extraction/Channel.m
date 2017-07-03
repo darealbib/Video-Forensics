@@ -1,13 +1,13 @@
 
 clc;
 close all;
-srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Moto\*.png');
+srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\*.png');
 % the folder in which ur images exists
 dwtmode('per');
 d0=5;
 Noise=zeros(2048,2048);
 for i = 1 : length(srcFiles)
-    filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Moto\',srcFiles(i).name);
+    filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\',srcFiles(i).name);
     img = imread(filename);
     img = im2double(img);
     img = imresize(img, 2.^(nextpow2([size(img,1) size(img,2)])), 'bilinear');
