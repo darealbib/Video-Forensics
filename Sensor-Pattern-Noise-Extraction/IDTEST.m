@@ -10,7 +10,7 @@ close all;
 
     source_noise = rgb2gray(source_noise);
     id_noise = rgb2gray(id_noise);
-     corr_noise_final = corr2(source_noise,id_noise);
+    corr_noise_final = corr2(source_noise,id_noise);
   %   for l = 1 : 3
   %   switch (l)
   %       case 1

@@ -1,13 +1,15 @@
-
+function Extract_Noise(dirname, outfold, phonemodel)
 clc;
 close all;
-srcFiles = dir('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\*.png');
+disp(dirname);
+disp(outfold);
+srcFiles = dir(strcat(dirname,'*.png'));
 % the folder in which ur images exists
 dwtmode('per');
 d0=5;
 Noise=zeros(2048,2048);
 for i = 1 : length(srcFiles)
-    filename = strcat('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Video Frames\Ishaan Phone\',srcFiles(i).name);
+    filename = strcat(dirname,srcFiles(i).name);
     img = imread(filename);
     img = im2double(img);
     img = imresize(img, 2.^(nextpow2([size(img,1) size(img,2)])), 'bilinear');
@@ -89,10 +91,15 @@ for i = 1 : length(srcFiles)
     end
 
     rgbImage = cat(3, inv_red, inv_green, inv_blue);
-    
+
     Noise = Noise + (img - rgbImage);
 
 end
 
 Noise = Noise/length(srcFiles);
-imwrite(Noise, fullfile('C:\Users\Ishaan Dali\OneDrive\Documents\Assignments - Projects\Research\Video-Forensics\Extracted Noise\', 'Noise.png'))
+if ~exist(outfold, 'dir')
+              mkdir(outfold);
+else
+    sprintf('\n Directory exists');
+end
+imwrite(Noise, fullfile(outfold,strcat(phonemodel,'_Noise.png')));
