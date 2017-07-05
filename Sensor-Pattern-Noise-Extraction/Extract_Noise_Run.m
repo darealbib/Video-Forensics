@@ -11,7 +11,7 @@ outFullFolder=fullfile('E:','Ishaan','Video-Forensics-Resources','Extracted Nois
         phone = 'iphone_6s_plus';
 
       case 3
-        phone = 'Samsung_J7_Prime';
+        phone = 'samsung_j7_prime';
 
       otherwise
       fprintf('Invalid!\n' );
