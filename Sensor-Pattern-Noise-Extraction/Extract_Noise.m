@@ -1,8 +1,6 @@
 function Extract_Noise(dirname, outfold, phonemodel)
 clc;
 close all;
-disp(dirname);
-disp(outfold);
 srcFiles = dir(strcat(dirname,'*.png'));
 % the folder in which ur images exists
 dwtmode('per');
