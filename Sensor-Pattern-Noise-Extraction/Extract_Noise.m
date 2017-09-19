@@ -1,4 +1,5 @@
 function Extract_Noise(dirname, outfold, phonemodel)
+
 clc;
 close all;
 srcFiles = dir(strcat(dirname,'*.png'));

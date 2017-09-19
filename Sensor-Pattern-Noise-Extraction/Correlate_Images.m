@@ -6,7 +6,7 @@ function Correlate_Images(dirname, sheet, outfold)
   source_noise = imread(filename);
   source_noise = im2double(source_noise);
   source_noise = rgb2gray(source_noise);
-  correlation_values=[length(srcFiles)];
+  correlation_values=[length(srcFiles)-1];
   for i = 2 : length(srcFiles)
     filename = strcat(dirname,srcFiles(i).name);
     id_noise = imread(filename);

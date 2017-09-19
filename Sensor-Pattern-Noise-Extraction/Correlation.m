@@ -1,5 +1,6 @@
 clc;
 close all;
+clear all;
 source_dir = 'E:\Ishaan\Video-Forensics-Resources\Extracted Noise\';
 outFullFolder=fullfile('E:','Ishaan','Video-Forensics-Resources','Correlation Coefficient');
 for l = 1 : 3
