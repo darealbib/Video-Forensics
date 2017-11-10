@@ -23,7 +23,7 @@ outFullFolder=fullfile('E:','Ishaan','Video-Forensics-Resources','Extracted Nois
       otherwise
       fprintf('Invalid!\n' );
     end
-      for k = 1 : 1
+      for k = 2 : 2
         Extract_Noise(strcat(maindir,phone,'\',num2str(k),'\'),fullfile(outFullFolder,phone,num2str(k)),strcat(phone,'_',num2str(k)));
     end
     end

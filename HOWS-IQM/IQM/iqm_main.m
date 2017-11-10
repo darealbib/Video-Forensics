@@ -3,7 +3,7 @@ function iqm_main(dirname, outputfile, stindx)
 clc;
 close all;
 
-list_img = dir(strcat(dirname,'*.png'));
+list_img = dir(strcat(dirname,'*.jpg'));
 total_img = size(list_img,1);
 crop_half_size = [256 256];
 

@@ -3,7 +3,7 @@ clc;
 close all;
 %Read Image
 
-list_img = dir(strcat(dirname,'*.png'));
+list_img = dir(strcat(dirname,'*.jpg'));
 total_img = size(list_img,1);
 crop_half_size = [256 256];
 %img = imread('C:\Users\Public\Pictures\Sample Pictures\Jellyfish.jpg');

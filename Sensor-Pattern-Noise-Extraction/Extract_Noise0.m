@@ -6,9 +6,10 @@ srcFiles = dir(strcat(dirname,'*.jpg'));
 % the folder in which ur images exists
 dwtmode('per');
 d0=5;
-Noise=zeros(512,512);
+
 crop_half_size = [256 256];
 for i = 1 : length(srcFiles)
+    Noise=zeros(512,512);
     filename = strcat(dirname,srcFiles(i).name);
     display(strcat('Processing ',filename));
     img = imread(filename);
@@ -101,13 +102,10 @@ for i = 1 : length(srcFiles)
     rgbImage = cat(3, inv_red, inv_green, inv_blue);
 
     Noise = Noise + (img - rgbImage);
-
+    if ~exist(outfold, 'dir')
+                  mkdir(outfold);
+    else
+        sprintf('\n Directory exists');
+    end
+    imwrite(Noise, fullfile(outfold,strcat(filename,'_Noise.png')));
 end
-
-Noise = Noise/length(srcFiles);
-if ~exist(outfold, 'dir')
-              mkdir(outfold);
-else
-    sprintf('\n Directory exists');
-end
-imwrite(Noise, fullfile(outfold,strcat(phonemodel,'_Noise.png')));
